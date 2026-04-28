@@ -1,0 +1,41 @@
+# Environment files
+.env
+.env.*
+
+# Dependencies and caches
+node_modules/
+.npm/
+.cache/
+.eslintcache
+coverage/
+
+# Runtime logs
+logs/
+theepicbook/logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.pid
+*.pid.lock
+
+# Terraform artifacts
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo

@@ -1,0 +1,17 @@
+.git
+.dockerignore
+.DS_Store
+node_modules
+npm-debug.log*
+Dockerfile*
+
+.env
+.env.*
+*.log
+logs
+
+README.md
+Installation & Configuration Guide.md
+.eslintignore
+.eslintrc.json
+.travis.yml
