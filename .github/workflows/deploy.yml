@@ -76,7 +76,7 @@ jobs:
               docker compose up -d --no-deps db
               docker compose pull app
               docker compose --env-file .env up -d --no-deps app
-              docker compose restart nginx || true
+              docker compose up -d --no-deps nginx
               docker image prune -f
 
            
