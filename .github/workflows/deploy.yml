@@ -73,10 +73,14 @@ jobs:
 
               echo "Deploying: $IMAGE"
 
+              docker compose down --remove-orphans
+
               docker compose up -d --no-deps db
+              sleep 10
+              
               docker compose pull app
               docker compose --env-file .env up -d --no-deps app
-              docker compose up -d --no-deps nginx
+              docker compose up -d --no-deps proxy
               docker image prune -f
 
            
