@@ -12,8 +12,8 @@ coverage/
 # Runtime logs
 logs/
 theepicbook/logs/
-nginx/ssl/
-nginx/certs/
+# nginx/ssl/
+# nginx/certs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
