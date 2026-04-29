@@ -11,9 +11,6 @@ COPY . .
 
 FROM node:20-alpine AS runtime
 
-ENV NODE_ENV=production \
-    PORT=8080
-
 WORKDIR /app
 
 COPY --from=builder /app ./
