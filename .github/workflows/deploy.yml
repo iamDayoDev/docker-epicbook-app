@@ -58,6 +58,8 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             script: |
               set -e
+              
+              echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
               cd /home/azureuser/docker-epicbook-app
 
@@ -66,28 +68,15 @@ jobs:
               MYSQL_USER=${{ secrets.MYSQL_USER }}
               MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
               MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
-              EOF
-
               IMAGE=${{ needs.build.outputs.image }}
+              EOF
 
               echo "Deploying: $IMAGE"
 
-              # Save image version for rollback
-              echo "IMAGE=$IMAGE" > .env
-
-              # Login to Docker Hub (safe for private images)
-              echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login docker.io -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-              # Pull new image
+              docker compose up -d --no-deps db
               docker compose pull app
-
-              # Restart only app (keep DB stable)
-              docker compose up -d --no-deps app
-
-              # Restart proxy if needed
+              docker compose --env-file .env up -d --no-deps app
               docker compose restart nginx || true
-
-              # Cleanup unused images
               docker image prune -f
 
            
