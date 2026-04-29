@@ -61,6 +61,13 @@ jobs:
 
               cd /home/azureuser/docker-epicbook-app
 
+              cat > .env <<EOF
+              MYSQL_DATABASE=${{ vars.MYSQL_DATABASE }}
+              MYSQL_USER=${{ secrets.MYSQL_USER }}
+              MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+              MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+              EOF
+
               IMAGE=${{ needs.build.outputs.image }}
 
               echo "Deploying: $IMAGE"
