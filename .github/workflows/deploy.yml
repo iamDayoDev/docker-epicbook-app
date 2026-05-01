@@ -61,8 +61,10 @@ jobs:
             script: |
               set -e
 
-               cd /home/azureuser/docker-epicbook-app
-              
+              cd /home/azureuser/docker-epicbook-app
+
+              sed -i "s/^APP_TAG=.*/APP_TAG=${{ github.sha }}/" .env || echo "APP_TAG=${{ github.sha }}" >> .env
+
               echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
               cat > .env <<EOF
