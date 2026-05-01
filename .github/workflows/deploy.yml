@@ -80,6 +80,7 @@ jobs:
               IMAGE=${{ needs.build.outputs.image }}
               EOF
 
+              source .env
               echo "Deploying: $IMAGE"
 
               docker compose down --remove-orphans
@@ -87,7 +88,7 @@ jobs:
               docker compose up -d --no-deps db
               sleep 10
 
-              docker compose pull app
+              docker compose --env-file .env pull app
               docker compose --env-file .env up -d --no-deps app
               docker compose up -d --no-deps proxy
               docker image prune -f
