@@ -20,6 +20,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:                         
+      image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
     steps:
       - name: Check out repository
@@ -58,24 +60,17 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             script: |
               set -e
+
+               cd /home/azureuser/docker-epicbook-app
               
               echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-              cd /home/azureuser/docker-epicbook-app
-
-              mkdir -p nginx/ssl
-
-              printf '%s' '${{ secrets.NGINX_SSL_CERT_B64 }}' | base64 -d > nginx/ssl/nginx.crt
-              printf '%s' '${{ secrets.NGINX_SSL_KEY_B64 }}' | base64 -d > nginx/ssl/nginx.key
-              chmod 644 nginx/ssl/nginx.crt
-              chmod 600 nginx/ssl/nginx.key
 
               cat > .env <<EOF
               MYSQL_DATABASE=${{ vars.MYSQL_DATABASE }}
               MYSQL_USER=${{ secrets.MYSQL_USER }}
               MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
               MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
-              IMAGE=${{ needs.build.outputs.image }}
+              IMAGE=${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
               EOF
 
               source .env
